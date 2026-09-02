@@ -1,5 +1,6 @@
-package com.postly.iam_service.service;
+package com.postly.iam_service.service.impl;
 
+import com.postly.iam_service.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

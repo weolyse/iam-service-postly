@@ -1,6 +1,6 @@
 package com.postly.iam_service.controller;
 
-import com.postly.iam_service.service.PostServiceImpl;
+import com.postly.iam_service.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

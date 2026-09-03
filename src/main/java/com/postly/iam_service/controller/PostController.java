@@ -1,34 +1,36 @@
 package com.postly.iam_service.controller;
 
+import com.postly.iam_service.model.constant.ApiErrorMessage;
+import com.postly.iam_service.model.constant.ApiLogMessage;
+import com.postly.iam_service.model.entity.Post;
+import com.postly.iam_service.repository.PostRepository;
 import com.postly.iam_service.service.impl.PostServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/posts")
+@RequiredArgsConstructor
 public class PostController {
 
-    private final PostServiceImpl postService;
+    private final PostRepository postRepository;
 
-    @Autowired
-    public PostController(PostServiceImpl postService) {
-        this.postService = postService;
-    }
-
-    @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody Map<String, Object> requestBody) {
-        String title = (String) requestBody.get("title");
-        String content = (String) requestBody.get("content");
-        String post = title + content;
-        postService.createPost(post);
-        return new ResponseEntity<>("Created post with title" + title, HttpStatus.CREATED);
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Integer id) {
+        log.info(ApiLogMessage.POST_INFO_BY_ID.getMessage(id));
+        return postRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> {
+                    log.info(ApiErrorMessage.POST_NOT_FOUND_BY_ID.getMessage(id));
+                    return ResponseEntity.notFound().build();
+                });
     }
 
 }

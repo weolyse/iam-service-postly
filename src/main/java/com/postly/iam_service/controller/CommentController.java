@@ -1,7 +1,6 @@
 package com.postly.iam_service.controller;
 
 import com.postly.iam_service.service.CommentService;
-import com.postly.iam_service.service.impl.DateCommentServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class CommentController {
 
     public CommentController(
             CommentService defaultService,
-            @Qualifier("advancedCommentService") CommentService advancedService) {
+            CommentService advancedService) {
         this.defaultService = defaultService;
         this.advancedService = advancedService;
     }

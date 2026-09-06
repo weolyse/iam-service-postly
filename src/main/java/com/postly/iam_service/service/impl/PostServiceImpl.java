@@ -4,6 +4,7 @@ import com.postly.iam_service.mapper.PostMapper;
 import com.postly.iam_service.model.constant.ApiErrorMessage;
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
+import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import com.postly.iam_service.model.request.PostRequest;
 import com.postly.iam_service.model.response.IamResponse;
@@ -33,6 +34,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public IamResponse<PostDto> create(PostRequest request) {
+        if (postRepository.existsByTitle(request.getTitle())) {
+            throw new InvalidDataException(ApiErrorMessage.DUPLICATE_TITLE.getMessage(request.getTitle()));
+        }
 
         Post postToSave = postMapper.toPost(request);
         Post savedPost = postRepository.save(postToSave);

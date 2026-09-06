@@ -5,6 +5,7 @@ import com.postly.iam_service.model.entity.Post;
 import com.postly.iam_service.model.request.PostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<IamResponse<PostDto>> createPost(@RequestBody PostRequest request) {
+    public ResponseEntity<IamResponse<PostDto>> createPost(@RequestBody @Valid PostRequest request) {
         IamResponse<PostDto> response = postService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

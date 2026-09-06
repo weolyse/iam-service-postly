@@ -1,5 +1,6 @@
 package com.postly.iam_service.service.impl;
 
+import com.postly.iam_service.mapper.PostMapper;
 import com.postly.iam_service.model.constant.ApiErrorMessage;
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
@@ -18,19 +19,14 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
     @Override
     public IamResponse<PostDto> findById(Integer id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ApiErrorMessage.POST_NOT_FOUND_BY_ID.getMessage(id)));
 
-        PostDto dto = PostDto.builder()
-                .id(post.getId())
-                .title(post.getTitle())
-                .content(post.getContent())
-                .likes(post.getLikes())
-                .created(post.getCreated())
-                .build();
+        PostDto dto = postMapper.toPostDto(post);
         return IamResponse.createSuccessful(dto);
     }
 }

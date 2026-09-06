@@ -5,6 +5,7 @@ import com.postly.iam_service.model.constant.ApiErrorMessage;
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
 import com.postly.iam_service.model.exception.NotFoundException;
+import com.postly.iam_service.model.request.PostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.repository.PostRepository;
 import com.postly.iam_service.service.PostService;
@@ -28,5 +29,14 @@ public class PostServiceImpl implements PostService {
 
         PostDto dto = postMapper.toPostDto(post);
         return IamResponse.createSuccessful(dto);
+    }
+
+    @Override
+    public IamResponse<PostDto> create(PostRequest request) {
+
+        Post postToSave = postMapper.toPost(request);
+        Post savedPost = postRepository.save(postToSave);
+        PostDto postDto = postMapper.toPostDto(savedPost);
+        return IamResponse.createSuccessful(postDto);
     }
 }

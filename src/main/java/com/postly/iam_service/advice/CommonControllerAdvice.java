@@ -1,9 +1,9 @@
 package com.postly.iam_service.advice;
 
 import com.postly.iam_service.model.constant.ApiConstants;
+import com.postly.iam_service.model.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +18,7 @@ public class CommonControllerAdvice {
 
     @ExceptionHandler
     @ResponseBody
-    protected ResponseEntity<String> handleNotFoundException(Exception ex) {
+    protected ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
         logStackTrace(ex);
 
         return ResponseEntity

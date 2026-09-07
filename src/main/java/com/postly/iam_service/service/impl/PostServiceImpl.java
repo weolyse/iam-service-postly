@@ -14,6 +14,8 @@ import com.postly.iam_service.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -47,14 +49,16 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ApiErrorMessage.POST_NOT_FOUND_BY_ID.getMessage(id)));
 
-        if (postRepository.existsByTitle(request.getTitle())) {
+        if (postRepository.existsByTitle(request.getTitle()) && !request.getTitle().equals(post.getTitle())) {
             throw new InvalidDataException(ApiErrorMessage.DUPLICATE_TITLE.getMessage(request.getTitle()));
         }
 
         postMapper.updatePost(post, request);
-        postRepository.save(post);
-        PostDto postDto = postMapper.toPostDto(post);
+        post.setUpdated(LocalDateTime.now());
 
+        Post savedPost = postRepository.save(post);
+
+        PostDto postDto = postMapper.toPostDto(savedPost);
         return IamResponse.createSuccessful(postDto);
     }
 }

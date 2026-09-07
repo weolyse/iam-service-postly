@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Getter
 @AllArgsConstructor
-public class PostRequest implements Serializable {
+public class UpdatePostRequest implements Serializable {
 
     @NotBlank(message = "Title cannot be blank!")
     private final String title;

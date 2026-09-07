@@ -6,15 +6,13 @@ import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
-import com.postly.iam_service.model.request.PostRequest;
+import com.postly.iam_service.model.request.CreatePostRequest;
+import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.repository.PostRepository;
 import com.postly.iam_service.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public IamResponse<PostDto> create(PostRequest request) {
+    public IamResponse<PostDto> create(CreatePostRequest request) {
         if (postRepository.existsByTitle(request.getTitle())) {
             throw new InvalidDataException(ApiErrorMessage.DUPLICATE_TITLE.getMessage(request.getTitle()));
         }
@@ -41,6 +39,22 @@ public class PostServiceImpl implements PostService {
         Post postToSave = postMapper.toPost(request);
         Post savedPost = postRepository.save(postToSave);
         PostDto postDto = postMapper.toPostDto(savedPost);
+        return IamResponse.createSuccessful(postDto);
+    }
+
+    @Override
+    public IamResponse<PostDto> update(Integer id, UpdatePostRequest request) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(ApiErrorMessage.POST_NOT_FOUND_BY_ID.getMessage(id)));
+
+        if (postRepository.existsByTitle(request.getTitle())) {
+            throw new InvalidDataException(ApiErrorMessage.DUPLICATE_TITLE.getMessage(request.getTitle()));
+        }
+
+        postMapper.updatePost(post, request);
+        postRepository.save(post);
+        PostDto postDto = postMapper.toPostDto(post);
+
         return IamResponse.createSuccessful(postDto);
     }
 }

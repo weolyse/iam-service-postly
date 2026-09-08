@@ -30,4 +30,7 @@ public class Post {
 
     @Column(nullable = false)
     private LocalDateTime updated = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private Boolean deleted = false;
 }

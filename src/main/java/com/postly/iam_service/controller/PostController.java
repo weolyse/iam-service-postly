@@ -41,4 +41,9 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(iamResponse);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Integer id) {
+        postService.softDelete(id);
+        return ResponseEntity.ok().build();
+    }
 }

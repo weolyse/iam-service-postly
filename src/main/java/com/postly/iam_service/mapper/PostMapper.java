@@ -25,8 +25,8 @@ public interface PostMapper {
     @Mapping(target = "created", ignore = true)
     Post toPost(CreatePostRequest request);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "likes", ignore = true)
-    @Mapping(target = "created", ignore = true)
+//    @Mapping(target = "id", ignore = true)
+//    @Mapping(target = "likes", ignore = true)
+//    @Mapping(target = "created", ignore = true)
     void updatePost(@MappingTarget Post post, UpdatePostRequest request);
 }

@@ -9,9 +9,12 @@ import com.postly.iam_service.model.exception.NotFoundException;
 import com.postly.iam_service.model.request.CreatePostRequest;
 import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
+import com.postly.iam_service.model.response.PaginationResponse;
 import com.postly.iam_service.repository.PostRepository;
 import com.postly.iam_service.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -69,5 +72,23 @@ public class PostServiceImpl implements PostService {
 
         post.setDeleted(true);
         postRepository.save(post);
+    }
+
+    @Override
+    public IamResponse<PaginationResponse<PostDto>> findAll(Pageable pageable) {
+        Page<PostDto> posts = postRepository.findAll(pageable)
+                .map(postMapper::toPostDto);
+
+        PaginationResponse<PostDto> paginationResponse = new PaginationResponse<>(
+                posts.getContent(),
+                new PaginationResponse.Pagination(
+                        posts.getTotalElements(),
+                        pageable.getPageSize(),
+                        posts.getNumber() + 1,
+                        posts.getTotalPages()
+                )
+        );
+
+        return IamResponse.createSuccessful(paginationResponse);
     }
 }

@@ -5,8 +5,7 @@ import com.postly.iam_service.model.request.CreatePostRequest;
 import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.model.response.PaginationResponse;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 
 public interface PostService {
 
@@ -18,5 +17,5 @@ public interface PostService {
 
     void softDelete(Integer id);
 
-
+    IamResponse<PaginationResponse<PostDto>> findAll(Pageable pageable);
 }

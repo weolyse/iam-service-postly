@@ -4,10 +4,14 @@ import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.request.CreatePostRequest;
 import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
+import com.postly.iam_service.model.response.PaginationResponse;
 import com.postly.iam_service.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +49,16 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable Integer id) {
         postService.softDelete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<IamResponse<PaginationResponse<PostDto>>> findAllPosts(
+//            @RequestParam(name = "page", defaultValue = "0") int page,
+//            @RequestParam(name = "limit", defaultValue = "5") int limit
+            @PageableDefault(page = 0, size = 5)Pageable pageable
+    ) {
+//        Pageable pageable = PageRequest.of(page, limit);
+        IamResponse<PaginationResponse<PostDto>> all = postService.findAll(pageable);
+        return ResponseEntity.ok(all);
     }
 }

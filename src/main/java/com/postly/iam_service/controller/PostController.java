@@ -2,6 +2,7 @@ package com.postly.iam_service.controller;
 
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.request.CreatePostRequest;
+import com.postly.iam_service.model.request.SearchPostRequest;
 import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.model.response.PaginationResponse;
@@ -60,5 +61,14 @@ public class PostController {
 //        Pageable pageable = PageRequest.of(page, limit);
         IamResponse<PaginationResponse<PostDto>> all = postService.findAll(pageable);
         return ResponseEntity.ok(all);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<IamResponse<PaginationResponse<PostDto>>> searchPosts(
+            @RequestBody SearchPostRequest request,
+            @PageableDefault(page = 0, size = 5) Pageable pageable
+    ) {
+        IamResponse<PaginationResponse<PostDto>> search = postService.search(request, pageable);
+        return ResponseEntity.ok(search);
     }
 }

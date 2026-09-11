@@ -7,14 +7,17 @@ import com.postly.iam_service.model.entity.Post;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import com.postly.iam_service.model.request.CreatePostRequest;
+import com.postly.iam_service.model.request.SearchPostRequest;
 import com.postly.iam_service.model.request.UpdatePostRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.model.response.PaginationResponse;
 import com.postly.iam_service.repository.PostRepository;
+import com.postly.iam_service.repository.criteria.PostSearchCriteria;
 import com.postly.iam_service.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -84,8 +87,28 @@ public class PostServiceImpl implements PostService {
                 new PaginationResponse.Pagination(
                         posts.getTotalElements(),
                         pageable.getPageSize(),
-                        posts.getNumber() + 1,
+                        posts.getNumber(),
                         posts.getTotalPages()
+                )
+        );
+
+        return IamResponse.createSuccessful(paginationResponse);
+    }
+
+    @Override
+    public IamResponse<PaginationResponse<PostDto>> search(SearchPostRequest request, Pageable pageable) {
+        Specification<Post> specification = new PostSearchCriteria(request);
+
+        Page<PostDto> postDtoPage = postRepository.findAll(specification, pageable)
+                .map(postMapper::toPostDto);
+
+        PaginationResponse<PostDto> paginationResponse = new PaginationResponse<>(
+                postDtoPage.getContent(),
+                new PaginationResponse.Pagination(
+                        postDtoPage.getTotalElements(),
+                        postDtoPage.getSize(),
+                        postDtoPage.getNumber(),
+                        postDtoPage.getTotalPages()
                 )
         );
 

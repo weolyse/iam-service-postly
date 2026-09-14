@@ -41,5 +41,5 @@ public class User {
     private LocalDateTime lastLogin;
 
     @Column(nullable = false)
-    private Boolean deleted;
+    private Boolean deleted = false;
 }

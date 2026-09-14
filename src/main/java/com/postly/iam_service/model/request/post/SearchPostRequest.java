@@ -1,4 +1,4 @@
-package com.postly.iam_service.model.request;
+package com.postly.iam_service.model.request.post;
 
 import com.postly.iam_service.model.enums.PostSortField;
 import lombok.AllArgsConstructor;

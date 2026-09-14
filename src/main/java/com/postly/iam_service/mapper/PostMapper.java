@@ -2,16 +2,11 @@ package com.postly.iam_service.mapper;
 
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
-import com.postly.iam_service.model.request.CreatePostRequest;
-import com.postly.iam_service.model.request.UpdatePostRequest;
-import org.hibernate.type.descriptor.DateTimeUtils;
+import com.postly.iam_service.model.request.post.CreatePostRequest;
+import com.postly.iam_service.model.request.post.UpdatePostRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.factory.Mappers;
-
-import java.util.Objects;
 
 @Mapper(componentModel = "spring")
 public interface PostMapper {

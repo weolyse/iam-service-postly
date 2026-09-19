@@ -2,6 +2,7 @@ package com.postly.iam_service.mapper;
 
 import com.postly.iam_service.model.dto.PostDto;
 import com.postly.iam_service.model.entity.Post;
+import com.postly.iam_service.model.entity.User;
 import com.postly.iam_service.model.request.post.CreatePostRequest;
 import com.postly.iam_service.model.request.post.UpdatePostRequest;
 import org.mapstruct.Mapper;
@@ -18,7 +19,10 @@ public interface PostMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "likes", ignore = true)
     @Mapping(target = "created", ignore = true)
-    Post toPost(CreatePostRequest request);
+    @Mapping(target="user", source="user")
+    @Mapping(target="updated", ignore = true)
+    @Mapping(target="deleted", ignore = true)
+    Post toPost(CreatePostRequest request, User user);
 
 //    @Mapping(target = "id", ignore = true)
 //    @Mapping(target = "likes", ignore = true)

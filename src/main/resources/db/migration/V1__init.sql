@@ -12,12 +12,14 @@ CREATE TABLE users (
 
 CREATE TABLE posts (
     id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
     title VARCHAR(255) NOT NULL UNIQUE,
     content TEXT NOT NULL,
     likes INTEGER NOT NULL DEFAULT 0,
     created TIMESTAMP NOT NULL DEFAULT current_timestamp,
     updated TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    deleted BOOLEAN NOT NULL DEFAULT false
+    deleted BOOLEAN NOT NULL DEFAULT false,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 INSERT INTO users(username, password, email, registration_status, last_login) VALUES
@@ -25,9 +27,9 @@ INSERT INTO users(username, password, email, registration_status, last_login) VA
                                       ('username2', 'password2', 'user2@gmail.com', 'ACTIVE', CURRENT_TIMESTAMP),
                                       ('username3', 'password3', 'user3@gmail.com', 'ACTIVE', CURRENT_TIMESTAMP);
 
-INSERT INTO posts(title, content) VALUES
-                                      ('First post', 'This is the content of the first post.'),
-                                      ('Second post', 'This is the content of the second post.'),
-                                      ('Third post', 'This is the content of the third post.'),
-                                      ('Fourth post', 'This is the content of the fourth post.'),
-                                      ('Fifth post', 'This is the content of the fifth post.');
+INSERT INTO posts(user_id, title, content) VALUES
+                                      (1, 'First post', 'This is the content of the first post.'),
+                                      (2, 'Second post', 'This is the content of the second post.'),
+                                      (3, 'Third post', 'This is the content of the third post.'),
+                                      (1, 'Fourth post', 'This is the content of the fourth post.'),
+                                      (2,'Fifth post', 'This is the content of the fifth post.');

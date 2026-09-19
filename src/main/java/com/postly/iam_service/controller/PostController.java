@@ -32,7 +32,9 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<IamResponse<PostDto>> createPost(@RequestBody @Valid CreatePostRequest request) {
-        IamResponse<PostDto> response = postService.create(request);
+        // TODO: replace with real user id
+        Integer userId = 1;
+        IamResponse<PostDto> response = postService.create(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -12,7 +12,7 @@ public interface PostService {
 
     IamResponse<PostDto> findById(Integer id);
 
-    IamResponse<PostDto> create(CreatePostRequest request);
+    IamResponse<PostDto> create(Integer userId, CreatePostRequest request);
 
     IamResponse<PostDto> update(Integer id, UpdatePostRequest request);
 

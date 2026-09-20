@@ -1,6 +1,7 @@
 package com.postly.iam_service.model.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class PaginationResponse<T> implements Serializable {
 
     @Getter
     @AllArgsConstructor
+    @Builder
     public static class Pagination implements Serializable {
         private long total;
         private int limit;

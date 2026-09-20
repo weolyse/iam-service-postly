@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
         "id",
         "title",
         "content",
+        "createdBy",
         "likes",
         "created",
         "updated",
@@ -26,4 +27,5 @@ public class PostDto implements Serializable {
     private LocalDateTime created;
     private LocalDateTime updated;
     private Boolean deleted;
+    private String createdBy;
 }

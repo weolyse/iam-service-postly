@@ -14,6 +14,7 @@ public interface PostMapper {
 
 //    PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 
+    @Mapping(source = "user.username", target = "createdBy")
     PostDto toPostDto(Post post);
 
     @Mapping(target = "id", ignore = true)

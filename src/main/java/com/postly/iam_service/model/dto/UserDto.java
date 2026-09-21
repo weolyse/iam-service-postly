@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -18,7 +19,8 @@ import java.time.LocalDateTime;
         "lastLogin",
         "created",
         "updated",
-        "deleted"
+        "deleted",
+        "roles"
 })
 public class UserDto implements Serializable {
 
@@ -30,5 +32,6 @@ public class UserDto implements Serializable {
     private LocalDateTime created;
     private LocalDateTime updated;
     private Boolean deleted;
+    private List<RoleDto> roles;
 
 }

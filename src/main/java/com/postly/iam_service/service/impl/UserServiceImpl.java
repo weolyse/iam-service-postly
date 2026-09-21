@@ -3,13 +3,16 @@ package com.postly.iam_service.service.impl;
 import com.postly.iam_service.mapper.UserMapper;
 import com.postly.iam_service.model.constant.ApiErrorMessage;
 import com.postly.iam_service.model.dto.UserDto;
+import com.postly.iam_service.model.entity.Role;
 import com.postly.iam_service.model.entity.User;
+import com.postly.iam_service.model.entity.UserSystemRole;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import com.postly.iam_service.model.request.user.CreateUserRequest;
 import com.postly.iam_service.model.request.user.UpdateUserRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.model.response.PaginationResponse;
+import com.postly.iam_service.repository.RoleRepository;
 import com.postly.iam_service.repository.UserRepository;
 import com.postly.iam_service.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Override
     public IamResponse<UserDto> findById(Integer id) {
@@ -48,7 +53,14 @@ public class UserServiceImpl implements UserService {
             throw new InvalidDataException(ApiErrorMessage.DUPLICATE_EMAIL.getMessage(request.getEmail()));
         }
 
+        Role defaultRole = roleRepository.findByName(UserSystemRole.USER.name())
+                .orElseThrow(() -> new NotFoundException(ApiErrorMessage.ROLE_NOT_FOUND.getMessage(UserSystemRole.USER.name())));
+
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(defaultRole);
+
         User userToSave = userMapper.toUser(request);
+        userToSave.setRoles(roles);
         userToSave.setPassword(passwordEncoder.encode(request.getPassword()));
         User savedUser = userRepository.save(userToSave);
         UserDto userDto = userMapper.toUserDto(savedUser);

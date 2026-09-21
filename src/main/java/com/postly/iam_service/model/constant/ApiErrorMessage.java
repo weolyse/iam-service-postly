@@ -9,7 +9,9 @@ public enum ApiErrorMessage {
     DUPLICATE_TITLE("The post with title: %s already exists!"),
     USER_NOT_FOUND_BY_ID("Couldn't find user with ID: %s"),
     DUPLICATE_USERNAME("The user with username: %s already exists!"),
-    DUPLICATE_EMAIL("The user with email: %s already exists!");
+    DUPLICATE_EMAIL("The user with email: %s already exists!"),
+    ROLE_NOT_FOUND("Role with name: %s not found!");
+
 
     private final String message;
 

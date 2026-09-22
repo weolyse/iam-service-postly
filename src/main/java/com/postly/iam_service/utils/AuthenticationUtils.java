@@ -1,0 +1,14 @@
+package com.postly.iam_service.utils;
+
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class AuthenticationUtils {
+
+    public static final String USER_ID = "userId";
+    public static final String USERNAME = "username"; // Добавили username
+    public static final String USER_EMAIL = "email";
+    public static final String USER_REGISTRATION_STATUS = "userRegistrationStatus";
+    public static final String LAST_UPDATE = "lastUpdate";
+    public static final String ROLE = "role";
+}

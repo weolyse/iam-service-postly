@@ -6,8 +6,9 @@ import com.postly.iam_service.model.request.user.CreateUserRequest;
 import com.postly.iam_service.model.response.IamResponse;
 import com.postly.iam_service.model.response.PaginationResponse;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     IamResponse<UserDto> findById(Integer id);
 

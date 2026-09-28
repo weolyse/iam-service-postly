@@ -2,6 +2,7 @@ package com.postly.iam_service.mapper;
 
 import com.postly.iam_service.model.dto.RoleDto;
 import com.postly.iam_service.model.dto.UserDto;
+import com.postly.iam_service.model.dto.UserProfileDto;
 import com.postly.iam_service.model.entity.RegistrationStatus;
 import com.postly.iam_service.model.entity.Role;
 import com.postly.iam_service.model.entity.User;
@@ -26,4 +27,8 @@ public interface UserMapper {
     User toUser(CreateUserRequest request);
 
     void update(@MappingTarget User user, UpdateUserRequest request);
+
+    @Mapping(target = "roles", expression = "java(RoleMapper.toListRoleDto(user.getRoles()))")
+    @Mapping(target = "token", source = "token")
+    UserProfileDto toUserProfileDto(User user, String token);
 }

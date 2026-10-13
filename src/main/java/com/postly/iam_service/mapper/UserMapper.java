@@ -29,6 +29,5 @@ public interface UserMapper {
     void update(@MappingTarget User user, UpdateUserRequest request);
 
     @Mapping(target = "roles", expression = "java(RoleMapper.toListRoleDto(user.getRoles()))")
-    @Mapping(target = "token", source = "token")
-    UserProfileDto toUserProfileDto(User user, String token);
+    UserProfileDto toUserProfileDto(User user, String token, String refreshToken);
 }

@@ -30,9 +30,12 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
     private static final String POST = "POST";
+    private static final String GET = "GET";
+
     private static final PathPatternRequestMatcher[] UNSECURED_URLS = new PathPatternRequestMatcher[]{
             PathPatternRequestMatcher.pathPattern(HttpMethod.POST,"/auth/login"),
-            PathPatternRequestMatcher.pathPattern(HttpMethod.POST,"/auth/register")
+            PathPatternRequestMatcher.pathPattern(HttpMethod.POST,"/auth/register"),
+            PathPatternRequestMatcher.pathPattern(HttpMethod.GET,"/auth/refresh/token")
     };
 
     @Bean

@@ -1,7 +1,7 @@
 package com.postly.iam_service.repository.criteria;
 
 import com.postly.iam_service.model.entity.Post;
-import com.postly.iam_service.model.request.post.SearchPostRequest;
+import com.postly.iam_service.model.dto.request.post.SearchPostRequest;
 import com.postly.iam_service.utils.PostUtils;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

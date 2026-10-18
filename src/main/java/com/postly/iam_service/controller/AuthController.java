@@ -1,11 +1,9 @@
 package com.postly.iam_service.controller;
 
-import com.postly.iam_service.model.dto.UserProfileDto;
-import com.postly.iam_service.model.entity.RefreshToken;
-import com.postly.iam_service.model.request.authentication.LoginRequest;
-import com.postly.iam_service.model.response.IamResponse;
+import com.postly.iam_service.model.dto.response.UserProfileDto;
+import com.postly.iam_service.model.dto.request.authentication.LoginRequest;
+import com.postly.iam_service.model.format.IamResponse;
 import com.postly.iam_service.service.AuthService;
-import com.postly.iam_service.service.RefreshTokenService;
 import com.postly.iam_service.utils.ApiUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package com.postly.iam_service.model.response;
+package com.postly.iam_service.model.format;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

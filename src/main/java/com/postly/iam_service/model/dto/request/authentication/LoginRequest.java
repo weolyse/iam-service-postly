@@ -1,4 +1,4 @@
-package com.postly.iam_service.model.request.authentication;
+package com.postly.iam_service.model.dto.request.authentication;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

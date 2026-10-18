@@ -2,13 +2,12 @@ package com.postly.iam_service.service.impl;
 
 import com.postly.iam_service.mapper.UserMapper;
 import com.postly.iam_service.model.constant.ApiErrorMessage;
-import com.postly.iam_service.model.dto.UserProfileDto;
+import com.postly.iam_service.model.dto.response.UserProfileDto;
 import com.postly.iam_service.model.entity.RefreshToken;
 import com.postly.iam_service.model.entity.User;
 import com.postly.iam_service.model.exception.InvalidDataException;
-import com.postly.iam_service.model.exception.NotFoundException;
-import com.postly.iam_service.model.request.authentication.LoginRequest;
-import com.postly.iam_service.model.response.IamResponse;
+import com.postly.iam_service.model.dto.request.authentication.LoginRequest;
+import com.postly.iam_service.model.format.IamResponse;
 import com.postly.iam_service.repository.RefreshTokenRepository;
 import com.postly.iam_service.repository.UserRepository;
 import com.postly.iam_service.security.JwtTokenProvider;

@@ -1,6 +1,6 @@
 package com.postly.iam_service.mapper;
 
-import com.postly.iam_service.model.dto.RoleDto;
+import com.postly.iam_service.model.dto.response.RoleDto;
 import com.postly.iam_service.model.entity.Role;
 import org.mapstruct.Mapper;
 

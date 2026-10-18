@@ -1,4 +1,4 @@
-package com.postly.iam_service.model.request.user;
+package com.postly.iam_service.model.dto.request.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

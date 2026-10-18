@@ -1,10 +1,10 @@
 package com.postly.iam_service.mapper;
 
-import com.postly.iam_service.model.dto.PostDto;
+import com.postly.iam_service.model.dto.response.PostDto;
 import com.postly.iam_service.model.entity.Post;
 import com.postly.iam_service.model.entity.User;
-import com.postly.iam_service.model.request.post.CreatePostRequest;
-import com.postly.iam_service.model.request.post.UpdatePostRequest;
+import com.postly.iam_service.model.dto.request.post.CreatePostRequest;
+import com.postly.iam_service.model.dto.request.post.UpdatePostRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

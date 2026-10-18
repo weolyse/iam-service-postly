@@ -1,4 +1,4 @@
-package com.postly.iam_service.model.dto;
+package com.postly.iam_service.model.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

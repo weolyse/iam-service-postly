@@ -1,7 +1,6 @@
-package com.postly.iam_service.model.dto;
+package com.postly.iam_service.model.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.postly.iam_service.model.entity.RegistrationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

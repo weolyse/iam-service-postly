@@ -3,6 +3,7 @@ package com.postly.iam_service.advice;
 import com.postly.iam_service.model.constant.ApiConstants;
 import com.postly.iam_service.model.exception.DuplicateDataException;
 import com.postly.iam_service.model.exception.InvalidDataException;
+import com.postly.iam_service.model.exception.InvalidPasswordException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,9 +24,9 @@ import java.util.Objects;
 @ControllerAdvice
 public class CommonControllerAdvice {
 
-    @ExceptionHandler
+    @ExceptionHandler(NotFoundException.class)
     @ResponseBody
-    protected ResponseEntity<String> handleNotFoundException(NotFoundException ex) {
+    protected ResponseEntity<String> handleNotFound(NotFoundException ex) {
         logStackTrace(ex);
 
         return ResponseEntity
@@ -32,9 +34,9 @@ public class CommonControllerAdvice {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(InvalidDataException.class)
     @ResponseBody
-    protected ResponseEntity<String> handleInvalidDataException(InvalidDataException ex) {
+    protected ResponseEntity<String> handleInvalidData(InvalidDataException ex) {
         logStackTrace(ex);
 
         return ResponseEntity
@@ -42,9 +44,9 @@ public class CommonControllerAdvice {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(DuplicateDataException.class)
     @ResponseBody
-    protected ResponseEntity<String> handleDuplicateDataException(DuplicateDataException ex) {
+    protected ResponseEntity<String> handleDuplicateData(DuplicateDataException ex) {
         logStackTrace(ex);
 
         return ResponseEntity
@@ -52,9 +54,9 @@ public class CommonControllerAdvice {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    protected ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+    protected ResponseEntity<Map<String, String>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         logStackTrace(ex);
 
         HashMap<String, String> errors = new HashMap<>();
@@ -62,6 +64,13 @@ public class CommonControllerAdvice {
             errors.put("Error", error.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    protected String handleInvalidPassword(InvalidPasswordException ex) {
+        return ex.getMessage();
     }
 
     protected void logStackTrace(Exception ex) {

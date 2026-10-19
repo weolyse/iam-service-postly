@@ -11,6 +11,7 @@ import com.postly.iam_service.model.entity.UserSystemRole;
 import com.postly.iam_service.model.exception.DuplicateDataException;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.dto.request.authentication.LoginRequest;
+import com.postly.iam_service.model.exception.InvalidPasswordException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import com.postly.iam_service.model.format.IamResponse;
 import com.postly.iam_service.repository.RefreshTokenRepository;
@@ -19,6 +20,7 @@ import com.postly.iam_service.repository.UserRepository;
 import com.postly.iam_service.security.JwtTokenProvider;
 import com.postly.iam_service.service.AuthService;
 import com.postly.iam_service.service.RefreshTokenService;
+import com.postly.iam_service.utils.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -72,6 +74,10 @@ public class AuthServiceImpl implements AuthService {
 
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateDataException(ApiErrorMessage.DUPLICATE_EMAIL.getMessage(request.getEmail()));
+        }
+
+        if (PasswordUtils.isNotValidPassword(request.getPassword())) {
+            throw new InvalidPasswordException(ApiErrorMessage.INVALID_PASSWORD_FORMAT.getMessage());
         }
 
         User user = userMapper.toUser(request);

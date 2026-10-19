@@ -22,7 +22,14 @@ public enum ApiErrorMessage {
 
     INVALID_EMAIL_OR_PASSWORD("Invalid Email or Password!"),
 
-    REFRESH_TOKEN_NOT_FOUND("Refresh token not found.");
+    REFRESH_TOKEN_NOT_FOUND("Refresh token not found."),
+
+    INVALID_PASSWORD_FORMAT("Invalid password. It must have: "
+            + "length at least: " + ValidationConstants.REQUIRED_MIN_PASSWORD_LENGTH + ", including "
+            + ValidationConstants.REQUIRED_MIN_LETTERS_NUMBER_EVERY_CASE_IN_PASSWORD + " letter(s) in upper and lower cases, "
+            + ValidationConstants.REQUIRED_MIN_CHARACTERS_NUMBER_IN_PASSWORD + " character(s), "
+            + ValidationConstants.REQUIRED_MIN_DIGITS_NUMBER_IN_PASSWORD + " digit(s). ");
+
 
 
     private final String message;

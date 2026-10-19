@@ -1,10 +1,12 @@
 package com.postly.iam_service.service;
 
-import com.postly.iam_service.model.dto.UserDto;
-import com.postly.iam_service.model.request.user.UpdateUserRequest;
-import com.postly.iam_service.model.request.user.CreateUserRequest;
-import com.postly.iam_service.model.response.IamResponse;
-import com.postly.iam_service.model.response.PaginationResponse;
+import com.postly.iam_service.model.dto.response.UserDto;
+import com.postly.iam_service.model.dto.response.UserProfileDto;
+import com.postly.iam_service.model.dto.request.authentication.RegistrationRequest;
+import com.postly.iam_service.model.dto.request.user.UpdateUserRequest;
+import com.postly.iam_service.model.dto.request.user.CreateUserRequest;
+import com.postly.iam_service.model.format.IamResponse;
+import com.postly.iam_service.model.format.PaginationResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

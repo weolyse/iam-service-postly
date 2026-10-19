@@ -1,5 +1,6 @@
 package com.postly.iam_service.controller;
 
+import com.postly.iam_service.model.dto.request.authentication.RegistrationRequest;
 import com.postly.iam_service.model.dto.response.UserProfileDto;
 import com.postly.iam_service.model.dto.request.authentication.LoginRequest;
 import com.postly.iam_service.model.format.IamResponse;
@@ -31,6 +32,18 @@ public class AuthController {
         response.addCookie(authCookie);
 
         return ResponseEntity.ok(iamResponse);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(
+            @RequestBody @Valid RegistrationRequest request,
+            HttpServletResponse response
+    ) {
+        IamResponse<UserProfileDto> register = authService.register(request);
+        Cookie authCookie = ApiUtils.createAuthCookie(register.getPayload().getToken());
+        response.addCookie(authCookie);
+
+        return ResponseEntity.ok(register);
     }
 
     @GetMapping("/refresh/token")

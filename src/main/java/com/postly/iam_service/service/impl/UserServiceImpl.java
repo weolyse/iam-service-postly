@@ -2,23 +2,27 @@ package com.postly.iam_service.service.impl;
 
 import com.postly.iam_service.mapper.UserMapper;
 import com.postly.iam_service.model.constant.ApiErrorMessage;
-import com.postly.iam_service.model.dto.UserDto;
+import com.postly.iam_service.model.dto.response.UserDto;
+import com.postly.iam_service.model.dto.response.UserProfileDto;
 import com.postly.iam_service.model.entity.Role;
 import com.postly.iam_service.model.entity.User;
 import com.postly.iam_service.model.entity.UserSystemRole;
+import com.postly.iam_service.model.exception.DuplicateDataException;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
-import com.postly.iam_service.model.request.user.CreateUserRequest;
-import com.postly.iam_service.model.request.user.UpdateUserRequest;
-import com.postly.iam_service.model.response.IamResponse;
-import com.postly.iam_service.model.response.PaginationResponse;
+import com.postly.iam_service.model.dto.request.authentication.RegistrationRequest;
+import com.postly.iam_service.model.dto.request.user.CreateUserRequest;
+import com.postly.iam_service.model.dto.request.user.UpdateUserRequest;
+import com.postly.iam_service.model.format.IamResponse;
+import com.postly.iam_service.model.format.PaginationResponse;
 import com.postly.iam_service.repository.RoleRepository;
 import com.postly.iam_service.repository.UserRepository;
+import com.postly.iam_service.security.JwtTokenProvider;
+import com.postly.iam_service.service.RefreshTokenService;
 import com.postly.iam_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public IamResponse<UserDto> findById(Integer id) {
@@ -63,7 +69,7 @@ public class UserServiceImpl implements UserService {
         ArrayList<Role> roles = new ArrayList<>();
         roles.add(defaultRole);
 
-        User userToSave = userMapper.toUser(request);
+        User userToSave = userMapper.createUser(request);
         userToSave.setRoles(roles);
         userToSave.setPassword(passwordEncoder.encode(request.getPassword()));
         User savedUser = userRepository.save(userToSave);

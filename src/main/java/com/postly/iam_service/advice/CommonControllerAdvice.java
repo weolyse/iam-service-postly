@@ -1,6 +1,7 @@
 package com.postly.iam_service.advice;
 
 import com.postly.iam_service.model.constant.ApiConstants;
+import com.postly.iam_service.model.exception.DuplicateDataException;
 import com.postly.iam_service.model.exception.InvalidDataException;
 import com.postly.iam_service.model.exception.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,16 @@ public class CommonControllerAdvice {
     @ExceptionHandler
     @ResponseBody
     protected ResponseEntity<String> handleInvalidDataException(InvalidDataException ex) {
+        logStackTrace(ex);
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    protected ResponseEntity<String> handleDuplicateDataException(DuplicateDataException ex) {
         logStackTrace(ex);
 
         return ResponseEntity
